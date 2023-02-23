@@ -8,13 +8,12 @@ from math import exp
 
 class CliquetOptionWithArrays:
     """
-    This class is designed to compute the payoff of a Cliquet option for a general
-    matrix representing the returns of a process over sub-intervals.
+    This class is designed to compute the payoff of a Cliquet option for a general matrix representing the returns of a
+    process over sub-intervals.
 
-    In particular, if X=(X)_{0 <= t <= T} is the underlying process, T is the
-    maturity of the option and 0=t_0 <= t_1 <=..<= t_N =T is the partition of
-    the interval, the payoff of the Cliquet option with local floor localFloor,
-    local cap localCap, global floor globalFloor and global cap globalCap is
+    In particular, if X=(X)_{0 <= t <= T} is the underlying process, T is the maturity of the option and
+    0=t_0 <= t_1 <=..<= t_N =T is the partition of the interval, the payoff of the Cliquet option with local floor
+    localFloor, local cap localCap, global floor globalFloor and global cap globalCap is
 
     min(max(R_1^*+R_2^*+..+R_N^*, globalFloor), globalCap),
 
@@ -46,17 +45,15 @@ class CliquetOptionWithArrays:
 
     Methods
     -------
-    payoffSingleTrajectory(returns):
-        It returns the payoff of the Cliquet option for a specific simulation,
-        not yet discounted
+    getPayoffSingleTrajectory(returns):
+        It returns the payoff of the Cliquet option for a specific simulation, not yet discounted
 
     getPayoffs(self, returnsForAllSimulations):
-        It returns the payoffs of the Cliquet option for all the simulations,
-        not yet discounted
+        It returns the payoffs of the Cliquet option for all the simulations, not yet discounted
 
-   discountedPriceOfTheOption(returnsForAllSimulations, interestRate):
-        It returns the discounted price of the Cliquet option, as the discounted
-        average of the payoffs for a single simulation of the returns.
+    getDiscountedPriceOfTheOption(returnsForAllSimulations, interestRate):
+        It returns the discounted price of the Cliquet option, as the discounted  average of the payoffs for a single
+        simulation of the returns.
 
     """
 
@@ -92,16 +89,14 @@ class CliquetOptionWithArrays:
         self.globalFloor = globalFloor
         self.globalCap = globalCap
 
-    def payoffSingleTrajectory(self, returns):
+    def getPayoffSingleTrajectory(self, returns):
         """
-        It returns the payoff of the Cliquet option for a specific simulation,
-        not yet discounted
+        It returns the payoff of the Cliquet option for a specific simulation, not yet discounted
 
         Parameters
         ----------
         returns : array
-            a vector representing the returns of the underlying process for one
-            specific simulation
+            a vector representing the returns of the underlying process for a specific simulation
 
         Returns
         -------
@@ -138,9 +133,9 @@ class CliquetOptionWithArrays:
         # here rowOfMatrixOfReturns runs into the rows of the matrix returnsForAllSimulations.. in our mind! The compiler
         # does not know that returnsForAllSimulations is a matrix, and not even that payoffSingleTrajectory accepts a vector
         # as an argument.
-        return [self.payoffSingleTrajectory(rowOfMatrixOfReturns) for rowOfMatrixOfReturns in returnsForAllSimulations]
+        return [self.getPayoffSingleTrajectory(rowOfMatrixOfReturns) for rowOfMatrixOfReturns in returnsForAllSimulations]
 
-    def discountedPriceOfTheOption(self, returnsForAllSimulations, interestRate):
+    def getDiscountedPriceOfTheOption(self, returnsForAllSimulations, interestRate):
         """
         It returns the discounted price of the Cliquet option, as the discounted average of the payoffs for a single
         simulation of the returns.

@@ -42,13 +42,13 @@ class CliquetOption:
 
     Methods
     -------
-    payoffSingleTrajectory(returns):
+    getPayoffSingleTrajectory(returns):
         It returns the payoff of the Cliquet option for a specific simulation, not yet discounted
 
     getPayoffs(self, returnsForAllSimulations):
         It returns the payoffs of the Cliquet option for all the simulations, not yet discounted
 
-   discountedPriceOfTheOption(returnsForAllSimulations, interestRate):
+    getDiscountedPriceOfTheOption(returnsForAllSimulations, interestRate):
         It returns the discounted price of the Cliquet option, as the discounted average of the payoffs for a single
         simulation of the returns.
 
@@ -87,7 +87,7 @@ class CliquetOption:
         self.globalCap = globalCap
    
     
-    def payoffSingleTrajectory(self, returns):
+    def getPayoffSingleTrajectory(self, returns):
         """
         It returns the payoff of the Cliquet option for a specific simulation, not yet discounted
 
@@ -130,10 +130,10 @@ class CliquetOption:
         
         #here x runs into the rows of the matrix returnsForAllSimulations..in our mind! The compiler does not know that
         #returnsForAllSimulations is a matrix, and not even that payoffSingleTrajectory accepts a vector as an argument.
-        return [self.payoffSingleTrajectory(x) for x in returnsForAllSimulations]
+        return [self.getPayoffSingleTrajectory(x) for x in returnsForAllSimulations]
     
     
-    def discountedPriceOfTheOption(self, returnsForAllSimulations, interestRate):
+    def getDiscountedPriceOfTheOption(self, returnsForAllSimulations, interestRate):
         """
         It returns the discounted price of the Cliquet option, as the discounted average of the payoffs
     

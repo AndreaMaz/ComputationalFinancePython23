@@ -22,7 +22,7 @@ maturity = numberOfTimes - 1
 
 payoff = lambda x : max(initialValue-x,0)
 
-valuesOption, valuesExercise, valuesIfWait, exercise = myPayoffEvaluator.analysisOption(payoff, maturity)
+valuesOption, valuesExercise, valuesIfWait, exercise = myPayoffEvaluator.getAnalysisOption(payoff, maturity)
 
 valuesOfProcess = myBinomialModelSmart.getRealizations()
 

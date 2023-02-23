@@ -1,6 +1,6 @@
 """
-We test here the performances of three methods for the computation of the price
-of a Cliquet option, in terms of the variance of the computed prices:
+We test here the performances of three methods for the computation of the price of a Cliquet option, in terms of the
+variance of the computed prices:
     - standard Monte-Carlo
     - Monte-Carlo with Antithetic variables
     - Monte-Carlo with Control variates.
@@ -73,7 +73,7 @@ for k in range(numberOfTests):
     # first we do it via standard Monte-Carlo
     start = time.time()
     returnsRealizations = generator.generateReturns()
-    priceStandardMC = cliquetOption.discountedPriceOfTheOption(returnsRealizations, r)
+    priceStandardMC = cliquetOption.getDiscountedPriceOfTheOption(returnsRealizations, r)
     end = time.time()
     pricesStandard.append(priceStandardMC)
     timesStandard.append(end - start)
@@ -81,7 +81,7 @@ for k in range(numberOfTests):
     # then via Monte-Carlo with Antithetic variables
     start = time.time()
     returnsRealizationsAV = generator.generateReturnsAntitheticVariables()
-    priceAV = cliquetOption.discountedPriceOfTheOption(returnsRealizationsAV, r)
+    priceAV = cliquetOption.getDiscountedPriceOfTheOption(returnsRealizationsAV, r)
     end = time.time()
     pricesAV.append(priceAV)
     timesAV.append(end - start)
@@ -95,7 +95,7 @@ for k in range(numberOfTests):
 
     # ..and then with control variates using arrays
     start = time.time()
-    priceStandardWithArrays = cliquetOptionWithArrays.discountedPriceOfTheOption(returnsRealizations, r)
+    priceStandardWithArrays = cliquetOptionWithArrays.getDiscountedPriceOfTheOption(returnsRealizations, r)
     end = time.time()
     pricesStandardWithArrays.append(priceStandardWithArrays)
     timesStandardWithArrays.append(end - start)

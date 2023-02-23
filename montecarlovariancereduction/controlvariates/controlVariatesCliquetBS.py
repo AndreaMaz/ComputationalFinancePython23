@@ -210,7 +210,7 @@ class ControlVariatesCliquetBS:
         cliquetOption = CliquetOption(numberOfSimulations, T, lF, lC, gF, gC)
 
         #first we get the Monte-Carlo price of the option..
-        discountedPriceOfTheOptionMC =  cliquetOption.discountedPriceOfTheOption(returnsRealizations, r)
+        discountedPriceOfTheOptionMC =  cliquetOption.getDiscountedPriceOfTheOption(returnsRealizations, r)
         
         #..and then we want to get the analytic price and the Monte-Carlo price of the option in the case where there is
         #no truncation of the final sum:
@@ -223,7 +223,7 @@ class ControlVariatesCliquetBS:
                                                         globalCapForNonTruncatedSum)
         
         discountedPriceNonTruncatedSumMC = \
-            cliquetOptionForNonTruncatedSum.discountedPriceOfTheOption(returnsRealizations, r)    
+            cliquetOptionForNonTruncatedSum.getDiscountedPriceOfTheOption(returnsRealizations, r)
         
         #and now the analytic value
         analyticPriceOfNonTruncatedSum = self.getAnalyticPriceOfNonTruncatedSum()

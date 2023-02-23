@@ -20,7 +20,7 @@ class AmericanOption:
     getValueOption(payoffFunction, maturity)
         It returns the value at zero of the american option of given maturity for the given payoff function
    
-    analysisOption(payoffFunction, maturity)
+    getAnalysisOption(payoffFunction, maturity)
         For the given maturity and payoff function, it returns:
         - a matrix with the values of the american option at every time
         - a matrix with the amount of money one would get if exercising
@@ -99,7 +99,7 @@ class AmericanOption:
         
     
     
-    def analysisOption(self, payoffFunction, maturity):
+    def getAnalysisOption(self, payoffFunction, maturity):
         """
         It performs an analysis of the american option option, returning  matrices representing the discounted values of
         the option, the discounted amount of money one would get by waiting and by exercising the option, respectively,
