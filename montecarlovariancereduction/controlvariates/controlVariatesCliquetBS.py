@@ -8,7 +8,7 @@ import math
 
 from analyticformulas.analyticFormulas import blackScholesPriceCall
 from cliquetOption import CliquetOption
-from generateBSReturnsWithArrays import GenerateBSReturns
+from generateBSReturns import GenerateBSReturns
 
 
 
@@ -149,18 +149,10 @@ class ControlVariatesCliquetBS:
         
         firstStrike = self.localFloor + 1
         secondStrike = self.localCap + 1
-        
-        # when calling blackScholesPriceCall, we get the DISCOUNTED price of the option! That is, discounted with respect
-        # to the option maturity. But this is not what we want, in our application. So we multiply it by the opposite of
-        # the discounting factor
-        discountFactorBlackScholes = math.exp(-self.r * maturityOfTheCallOptions)
 
-        firstCallPrice = blackScholesPriceCall(initialValue, self.r, self.sigma,maturityOfTheCallOptions, firstStrike)\
-            / discountFactorBlackScholes
-        
-        secondCallPrice = blackScholesPriceCall(initialValue, self.r, self.sigma, maturityOfTheCallOptions, secondStrike)\
-            / discountFactorBlackScholes
-        
+        firstCallPrice = blackScholesPriceCall(initialValue, self.r, self.sigma,maturityOfTheCallOptions, firstStrike)
+
+        secondCallPrice = blackScholesPriceCall(initialValue, self.r, self.sigma, maturityOfTheCallOptions, secondStrike)
         #we repeat the same over all the time intervals, so we multiply by their number
         price = self.numberOfIntervals * (self.localFloor + firstCallPrice - secondCallPrice)
         

@@ -4,7 +4,7 @@
 import numpy as np
 import math
 
-class GenerateBSReturns:
+class GenerateBSReturnsWithArrays:
     """
     In this class we generate N realizations of the returns of a log-normal process
     dX_t = r X_t dt + sigma X_t dW_t, 0 \le t \le T,

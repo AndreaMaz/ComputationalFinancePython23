@@ -121,12 +121,11 @@ class GenerateBSReturns:
         #we don't want to compute this every time.
         firstPart = math.exp((self.r - 0.5 * self.sigma**2) * lenghthOfIntervals)
         for indicatorOfRowOfMatrixOfReturns in range (halfSimulations):
-            standardNormalRealizations = np.random.standard_normal(self.numberOfIntervals)
             #we append two rows: one for the generated realization, one for their opposite
             returns = [firstPart * math.exp(self.sigma * math.sqrt(lenghthOfIntervals) * x) \
                 for x in standardNormalRealizations[indicatorOfRowOfMatrixOfReturns]]
             returnsWithOppositeSignOfStandardNormal =  [firstPart * math.exp(self.sigma * math.sqrt(lenghthOfIntervals) * (-x)) \
-                         for x in standardNormalRealizations]
+                         for x in standardNormalRealizations[indicatorOfRowOfMatrixOfReturns]]
             blackScholesReturns.append(returns)
             blackScholesReturns.append(returnsWithOppositeSignOfStandardNormal)
                

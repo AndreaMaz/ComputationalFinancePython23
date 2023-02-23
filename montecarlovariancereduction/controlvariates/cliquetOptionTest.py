@@ -18,7 +18,8 @@ from cliquetOptionWithArrays import CliquetOptionWithArrays
 
 from controlVariatesCliquetBS import ControlVariatesCliquetBS
 
-from generateBSReturnsWithArrays import GenerateBSReturns
+from generateBSReturns import GenerateBSReturns
+from generateBSReturnsWithArrays import GenerateBSReturnsWithArrays
 
 # processParameters
 r = 0.2
@@ -39,8 +40,10 @@ globalCap = numberOfTimeIntervals * 0.3
 
 numberOfSimulations = 10000
 
-# the object to generate the returns
+# the objects to generate the returns
 generator = GenerateBSReturns(numberOfSimulations, numberOfTimeIntervals, maturity, sigma, r)
+generatorWithArrays = GenerateBSReturnsWithArrays(numberOfSimulations, numberOfTimeIntervals, maturity, sigma, r)
+
 
 # we want to compute the price with the standard Cliquet option implementation..
 cliquetOption = CliquetOption(numberOfSimulations, maturity, localFloor, localCap, globalFloor, globalCap)
@@ -52,8 +55,7 @@ cliquetOptionWithControlVariates = ControlVariatesCliquetBS(numberOfSimulations,
 
 
 # ..and then with the Cliquet option implementation that uses arrays
-cliquetOptionWithArrays = \
-    CliquetOptionWithArrays(numberOfSimulations, maturity, localFloor, localCap, globalFloor, globalCap)
+cliquetOptionWithArrays = CliquetOptionWithArrays(numberOfSimulations, maturity, localFloor, localCap, globalFloor, globalCap)
 
 
 
@@ -95,7 +97,8 @@ for k in range(numberOfTests):
 
     # ..and then with control variates using arrays
     start = time.time()
-    priceStandardWithArrays = cliquetOptionWithArrays.getDiscountedPriceOfTheOption(returnsRealizations, r)
+    returnsRealizationsWithArrays = generatorWithArrays.generateReturns()
+    priceStandardWithArrays = cliquetOptionWithArrays.getDiscountedPriceOfTheOption(returnsRealizationsWithArrays, r)
     end = time.time()
     pricesStandardWithArrays.append(priceStandardWithArrays)
     timesStandardWithArrays.append(end - start)
