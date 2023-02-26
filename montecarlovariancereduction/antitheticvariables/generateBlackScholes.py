@@ -115,7 +115,7 @@ class GenerateBlackScholes:
 
         #Look at this peculiar Python for loop: this is equivalent to write
         #for k in range (standardNormalRealizations.length)
-        #    blackScholesRealizations[k] = firstPart * math.exp(self.sigma * math.sqrt(self.T) * blackScholesRealizations[k])
+        #    blackScholesRealizations[k] = BSFunction(standardNormalRealizations[k])
         #The part (fox x in standardNormalRealizations) is similar to the Java foreach loop.
         #Such a loop returns a list
         blackScholesRealizations = [BSFunction(x) for x in standardNormalRealizations]
@@ -123,11 +123,8 @@ class GenerateBlackScholes:
         #alternative way if you want blackScholesRealizations to be an array:
         #blackScholesRealizations = np.array([BSFunction(x) for x in standardNormalRealizations])
 
-        #Alternative: vectorization is used to make the code faster, without using a loop.
-        #In this case, we would return an array
-        #def vectorizedBS(x):
-        #    vectorizedBS = vectorize(BSFunction)
-        #    return vectorizedBS(x)
+        #Alternative: vectorization is used to make the code faster, without using a loop. In this case, we would return an array
+        #vectorizedBS = vectorize(BSFunction)
 
         #blackScholesRealizations = vectorizedBS(standardNormalRealizations)
 
@@ -170,9 +167,8 @@ class GenerateBlackScholes:
         #blackScholesRealizations = np.array([BSFunction(x) for x in standardNormalRealizations] + \
         #                          [BSFunction(-x) for x in standardNormalRealizations])
 
-        #def vectorizedBS(x):
-        #    vectorizedBS = vectorize(BSFunction)
-        #    return vectorizedBS(x)
+        #or
+        #vectorizedBS = vectorize(BSFunction)
 
         #blackScholesRealizations = vectorizedBS(np.concatenate((standardNormalRealizations,-standardNormalRealizations)) )
 
