@@ -5,7 +5,7 @@ variance of the computed prices:
     - Monte-Carlo with Antithetic variables
     - Monte-Carlo with Control variates.
 
-We look at the variance since the analytic price is in general not known
+We look at the variance since the analytic price is in general not known, so there is no benchmark to compute the error
 
 @author: Andrea Mazzon
 """

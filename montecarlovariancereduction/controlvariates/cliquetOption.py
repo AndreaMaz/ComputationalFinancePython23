@@ -128,9 +128,10 @@ class CliquetOption:
 
         """
         
-        #here x runs into the rows of the matrix returnsForAllSimulations..in our mind! The compiler does not know that
-        #returnsForAllSimulations is a matrix, and not even that payoffSingleTrajectory accepts a vector as an argument.
-        return [self.getPayoffSingleTrajectory(x) for x in returnsForAllSimulations]
+        #here rowOfMatrixOfReturns runs into the rows of the matrix returnsForAllSimulations..in our mind! The compiler
+        #does not know that returnsForAllSimulations is a matrix, and not even that payoffSingleTrajectory accepts a
+        #vector as an argument.
+        return [self.getPayoffSingleTrajectory(rowOfMatrixOfReturns) for rowOfMatrixOfReturns in returnsForAllSimulations]
     
     
     def getDiscountedPriceOfTheOption(self, returnsForAllSimulations, interestRate):

@@ -76,8 +76,7 @@ class ControlVariatesCliquetBS:
 
     """
     
-    def __init__(self, numberOfSimulations, maturity, numberOfIntervals, 
-                 localFloor, localCap, globalFloor, globalCap, sigma, r):
+    def __init__(self, numberOfSimulations, maturity, numberOfIntervals, localFloor, localCap, globalFloor, globalCap, sigma, r):
         """
         Parameters
         ----------
@@ -193,13 +192,15 @@ class ControlVariatesCliquetBS:
         
         sigma = self.sigma
         r = self.r
-        
-        #we first generate the Black-Scholes returns
+
+        #first, we construct the object which represents the Cliquet option
+        cliquetOption = CliquetOption(numberOfSimulations, T, lF, lC, gF, gC)
+
+        #we then generate the Black-Scholes returns
         generator = GenerateBSReturns(numberOfSimulations, numberOfIntervals, T, sigma, r)
         
         returnsRealizations = generator.generateReturns()
 
-        cliquetOption = CliquetOption(numberOfSimulations, T, lF, lC, gF, gC)
 
         #first we get the Monte-Carlo price of the option..
         discountedPriceOfTheOptionMC =  cliquetOption.getDiscountedPriceOfTheOption(returnsRealizations, r)
