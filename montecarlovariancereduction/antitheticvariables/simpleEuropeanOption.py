@@ -73,11 +73,9 @@ class SimpleEuropeanOption:
         #loop.
         payoffRealizations = [payoffFunction(x) for x in self.processRealizations]
 
-        # def vectorizedPayoff(x):
-        #     vectorizedFunction = vectorize(payoffFunction)
-        #     return vectorizedFunction(x)
+        #vectorizedPayoffFunction = vectorize(payoffFunction)
         #
-        # payoffRealizations = vectorizedPayoff(self.processRealizations)
+        #payoffRealizations = vectorizedPayoffFunction(self.processRealizations)
 
         return payoffRealizations
     

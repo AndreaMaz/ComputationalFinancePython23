@@ -162,7 +162,7 @@ class GenerateBlackScholes:
 
         #note the use of the concatenation operator "+" between Python lists
         blackScholesRealizations = [BSFunction(x) for x in standardNormalRealizations] + \
-                                  [BSFunction(-x) for x in standardNormalRealizations]
+                                 [BSFunction(-x) for x in standardNormalRealizations]
 
         # alternatively, to get an array:
         #blackScholesRealizations = np.array([BSFunction(x) for x in standardNormalRealizations] + \
