@@ -114,6 +114,7 @@ class GenerateBlackScholes:
 
 
         #Look at this peculiar Python for loop: this is equivalent to write
+        #blackScholesRealizations = []
         #for k in range (standardNormalRealizations.length)
         #    blackScholesRealizations[k] = BSFunction(standardNormalRealizations[k])
         #The part (fox x in standardNormalRealizations) is similar to the Java foreach loop.

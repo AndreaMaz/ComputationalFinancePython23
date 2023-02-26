@@ -10,7 +10,8 @@ from numpy import mean, vectorize
 class SimpleEuropeanOption:
     """
     This class provides a very naive valuation of an European option. It has a method that takes a list or array or
-    realizations and applies the payoff function to the list/array. Then another method computes the average of the vector returned by the method above.
+    realizations and applies the payoff function to the list/array. Then another method computes the average of the
+    vector returned by the method above.
     
     We use this class within an example about Antithetic variables.
     ...
