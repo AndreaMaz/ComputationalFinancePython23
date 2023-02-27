@@ -184,8 +184,7 @@ class BinomialModelMonteCarlo(BinomialModel):
             a vector representing the realizations of the process at time timeIndex.
 
         """
-        realizations = self.realizations;
-        return realizations[timeIndex]
+        return self.realizations[timeIndex]
 
     def getPath(self, simulationIndex):
         """It returns the entire path of the process for a given simulation index
@@ -201,8 +200,7 @@ class BinomialModelMonteCarlo(BinomialModel):
             a vector representing the evolution of the process for the given simulation
 
         """
-        realizations = self.realizations;
-        return realizations[:, simulationIndex]
+        return self.realizations[:, simulationIndex]
 
     def printPath(self, simulationIndex):
         """

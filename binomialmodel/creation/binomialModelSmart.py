@@ -195,8 +195,7 @@ class BinomialModelSmart(BinomialModel):
 
         """
         probabilities = self.getProbabilitiesOfRealizationsAtGivenTime(timeIndex)
-        print("The probabilities of the realizations at time ", timeIndex, " from the largest realizations to the"
-                                                                           "smallest are ")
+        print("The probabilities of the realizations at time ", timeIndex, " from the largest realizations to the smallest are ")
         print('\n'.join('{:.3}'.format(prob) for prob in probabilities))
 
 

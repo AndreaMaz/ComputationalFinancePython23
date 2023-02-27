@@ -111,9 +111,8 @@ class BinomialModel(metaclass=abc.ABCMeta):
         """
         return self.realizations
 
-    # this method is abstract as well: we will see indeed two different ways to
-
-    # compute the average of the process, depending on the way the process is generated
+    # this method is abstract as well: we will see indeed two different ways to compute the average of the process,
+    # depending on the way the process is generated
 
     @abc.abstractmethod
     def getDiscountedAverageAtGivenTime(self, timeIndex):
