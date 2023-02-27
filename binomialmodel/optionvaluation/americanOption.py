@@ -12,7 +12,7 @@ class AmericanOption:
     
     Attributes
     ----------
-    underlyingModel : binomial.creationandcalibration.BinomialModel
+    underlyingModel : binomial.creation.BinomialModel
         the underlying binomialmodel   
 
     Methods
@@ -32,7 +32,7 @@ class AmericanOption:
 
         Parameters
         ----------
-        underlyingModel : binomial.creationandcalibration.BinomialModel
+        underlyingModel : binomial.creation.BinomialModel
             the underlying binomialmodel 
 
         Returns

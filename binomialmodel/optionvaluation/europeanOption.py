@@ -21,7 +21,7 @@ class EuropeanOption:
 
     Attributes
     ----------
-    underlyingModel : binomial.creationandcalibration.BinomialModel
+    underlyingModel : binomial.creation.BinomialModel
         the underlying binomialmodel   
         
 
@@ -54,7 +54,7 @@ class EuropeanOption:
         """
         Parameters
         ----------
-        underlyingModel : binomial.creationandcalibration.BinomialModel
+        underlyingModel : binomial.creation.BinomialModel
             the underlying binomial model 
         """
         self.underlyingModel = underlyingModel

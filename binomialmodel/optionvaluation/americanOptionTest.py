@@ -5,7 +5,7 @@ In this class we test the computation of the price of an american call option wr
 """
 
 from americanOption import AmericanOption
-from binomialmodel.creationandcalibration.binomialModelSmart import BinomialModelSmart
+from binomialmodel.creation.binomialModelSmart import BinomialModelSmart
 
 
 initialValue = 20

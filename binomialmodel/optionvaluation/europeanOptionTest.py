@@ -6,7 +6,7 @@ on a binomial model
 """
 
 
-from binomialmodel.creationandcalibration.binomialModelSmart import BinomialModelSmart
+from binomialmodel.creation.binomialModelSmart import BinomialModelSmart
 from europeanOption import EuropeanOption
 
 

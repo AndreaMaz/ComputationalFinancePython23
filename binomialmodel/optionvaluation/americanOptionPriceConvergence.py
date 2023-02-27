@@ -11,7 +11,7 @@ import math
 import matplotlib.pyplot as plt
 
 from americanOption import AmericanOption
-from binomialmodel.creationandcalibration.binomialModelSmart import BinomialModelSmart
+from binomialmodel.creation.binomialModelSmart import BinomialModelSmart
 
 
 initialValue = 1

@@ -6,7 +6,7 @@
 import math
 
 from binomialmodel.optionvaluation.americanOption import AmericanOption
-from binomialmodel.creationandcalibration.binomialModelSmart import BinomialModelSmart
+from binomialmodel.creation.binomialModelSmart import BinomialModelSmart
 
 from europeanOption import EuropeanOption
 

@@ -4,7 +4,7 @@
 import numpy as np
 import scipy.special
 import math
-from binomialmodel.creationandcalibration.binomialModel import BinomialModel as BinomialModel
+from binomialmodel.creation.binomialModel import BinomialModel as BinomialModel
 
 
 class BinomialModelSmartWithLists(BinomialModel):
