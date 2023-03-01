@@ -49,13 +49,13 @@ generatorWithArrays = GenerateBSReturnsWithArrays(numberOfSimulations, numberOfT
 cliquetOption = CliquetOption(numberOfSimulations, maturity, localFloor, localCap, globalFloor, globalCap)
 
 
+# ..and then with the Cliquet option implementation that uses arrays
+cliquetOptionWithArrays = CliquetOptionWithArrays(numberOfSimulations, maturity, localFloor, localCap, globalFloor, globalCap)
+
+
 # ..with control variates..
 cliquetOptionWithControlVariates = ControlVariatesCliquetBS(numberOfSimulations, maturity, numberOfTimeIntervals,
                              localFloor, localCap, globalFloor, globalCap, sigma, r)
-
-
-# ..and then with the Cliquet option implementation that uses arrays
-cliquetOptionWithArrays = CliquetOptionWithArrays(numberOfSimulations, maturity, localFloor, localCap, globalFloor, globalCap)
 
 
 
@@ -90,9 +90,10 @@ for k in range(numberOfTests):
 
     # then with control variates
     start = time.time()
-    priceCV = cliquetOptionWithControlVariates.getPriceViaControlVariates()
+    returnsRealizationsAV = generator.generateReturnsAntitheticVariables()
+    priceAV = cliquetOption.getDiscountedPriceOfTheOption(returnsRealizationsAV, r)
     end = time.time()
-    pricesCV.append(priceCV)
+    pricesCV.append(priceAV)
     timesCV.append(end - start)
 
     # ..and then with control variates using arrays

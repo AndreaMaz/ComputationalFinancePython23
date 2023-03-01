@@ -71,11 +71,11 @@ class BinomialModelMonteCarlo(BinomialModel):
     getUpsAndDowns()
         It returns a matrix whose single entry is u > rho + 1 with probability equal to self.riskNeutralPercentageUp and
         d < rho + 1 with probability equal to 1 - self.riskNeutralProbabilityUp
-    getPath(timeIndex)
+    getPath(simulationIndex)
         It returns the entire path of the process for a given simulation index
-    printPath(timeIndex)
+    printPath(simulationIndex)
         It prints the entire path of the process for a given simulation index
-    plotPaths(timeIndex)
+    plotPaths(simulationIndex, numberOfPathsToBePlotted)
         It plots the paths of the process from simulationIndex to simulationIndex + numberOfPaths
     maximumAtGivenTime(timeIndex)
         It returns the maximum realization of the process at time timeIndex
@@ -89,8 +89,7 @@ class BinomialModelMonteCarlo(BinomialModel):
     """
 
     def __init__(self, initialValue, decreaseIfDown, increaseIfUp, numberOfTimes, numberOfSimulations,
-                 interestRate=0, mySeed = None
-                 ):
+                 interestRate=0, mySeed = None ):
         """
         Attributes
         ----------
@@ -134,10 +133,10 @@ class BinomialModelMonteCarlo(BinomialModel):
 
         q = self.riskNeutralProbabilityUp
 
-        randomNumbers = self.randomNumberGenerator.uniform(0, 1, size=(self.numberOfTimes, self.numberOfSimulations))
+        uniformlyDistributedrandomNumbers = self.randomNumberGenerator.uniform(0, 1, size=(self.numberOfTimes, self.numberOfSimulations))
 
         # ternary operator applied to matrices
-        upsAndDowns = np.where(randomNumbers < q, u, d)
+        upsAndDowns = np.where(uniformlyDistributedrandomNumbers < q, u, d)
 
         return upsAndDowns
 
@@ -159,7 +158,7 @@ class BinomialModelMonteCarlo(BinomialModel):
         # operation is not executed component-wise.
         realizations = np.full((self.numberOfTimes, self.numberOfSimulations), math.nan)
         # first the initial values. Look at how we can fill a vector with a single value in Python.
-        realizations[0] = np.full((self.numberOfSimulations),self.initialValue)
+        realizations[0] = np.full((self.numberOfSimulations), self.initialValue)
         #or
         #realizations[0] = [self.initialValue] * self.numberOfSimulations
         upsAndDowns = self.getUpsAndDowns()
@@ -279,6 +278,7 @@ class BinomialModelMonteCarlo(BinomialModel):
 
         # see how to convert booleans into numbers.
         indicatorsAsBooleans = self.initialValue * ((1 + self.interestRate) ** timeIndex) <= realizationsAtTimeIndex
+
         zeroAndOnes = indicatorsAsBooleans.astype(int)
 
         # or:

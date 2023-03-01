@@ -149,9 +149,12 @@ class ControlVariatesCliquetBS:
         firstStrike = self.localFloor + 1
         secondStrike = self.localCap + 1
 
-        firstCallPrice = blackScholesPriceCall(initialValue, self.r, self.sigma,maturityOfTheCallOptions, firstStrike)
+        localDiscountFactor = math.exp(-self.r * maturityOfTheCallOptions)
 
-        secondCallPrice = blackScholesPriceCall(initialValue, self.r, self.sigma, maturityOfTheCallOptions, secondStrike)
+        firstCallPrice = blackScholesPriceCall(initialValue, self.r, self.sigma, maturityOfTheCallOptions, firstStrike)/localDiscountFactor
+
+        secondCallPrice = blackScholesPriceCall(initialValue, self.r, self.sigma, maturityOfTheCallOptions, secondStrike)/localDiscountFactor
+
         #we repeat the same over all the time intervals, so we multiply by their number
         price = self.numberOfIntervals * (self.localFloor + firstCallPrice - secondCallPrice)
         
@@ -212,7 +215,7 @@ class ControlVariatesCliquetBS:
         globalFloorForNonTruncatedSum = - np.inf
         globalCapForNonTruncatedSum = float('inf')
         
-        cliquetOptionForNonTruncatedSum = CliquetOption(numberOfSimulations, T, lF, lC,globalFloorForNonTruncatedSum,
+        cliquetOptionForNonTruncatedSum = CliquetOption(numberOfSimulations, T, lF, lC, globalFloorForNonTruncatedSum,
                                                         globalCapForNonTruncatedSum)
         
         discountedPriceNonTruncatedSumMC = \

@@ -63,9 +63,7 @@ class BinomialModel(metaclass=abc.ABCMeta):
     """
 
     # Python specific syntax for the constructor
-    def __init__(self, initialValue, decreaseIfDown, increaseIfUp,
-                 numberOfTimes,
-                 interestRate=0,  # it is = 0 if not specified
+    def __init__(self, initialValue, decreaseIfDown, increaseIfUp, numberOfTimes, interestRate=0,  # it is = 0 if not specified
                  ):
         """
         Parameters
@@ -154,7 +152,6 @@ class BinomialModel(metaclass=abc.ABCMeta):
         plt.xlabel('Time')
         plt.ylabel('Discounted average')
         plt.title('Evolution of the discounted average of the process')
-        plt.draw()
         plt.show()
 
     # Also the way we compute this percentage depends on how we construct Binomial model: for this reason, this is an

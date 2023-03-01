@@ -109,7 +109,7 @@ class CliquetOptionWithArrays:
         truncatedReturns = np.minimum(np.maximum(returns - 1, self.localFloor), self.localCap)
 
         # you see how simply we can get the sum of elements of an array
-        payoff = np.minimum(np.maximum(sum(truncatedReturns), self.globalFloor), self.globalCap)
+        payoff = min(max(sum(truncatedReturns), self.globalFloor), self.globalCap)
 
         # we don't discount the payoff now. Can you guess why?
         return payoff
@@ -135,6 +135,17 @@ class CliquetOptionWithArrays:
         # as an argument.
         return [self.getPayoffSingleTrajectory(rowOfMatrixOfReturns) for rowOfMatrixOfReturns in returnsForAllSimulations]
 
+
+    def getPayoffsInOneTime(self, returnsForAllSimulations):
+
+        payoffsVector = np.zeros(self.numberOfSimulations)
+
+        for indexOfRow in range(self.numberOfSimulations):
+            truncatedReturns = np.minimum(np.maximum(returnsForAllSimulations[indexOfRow] - 1, self.localFloor), self.localCap)
+            payoffsVector[indexOfRow]= min(max(sum(truncatedReturns), self.globalFloor), self.globalCap)
+
+        return payoffsVector
+
     def getDiscountedPriceOfTheOption(self, returnsForAllSimulations, interestRate):
         """
         It returns the discounted price of the Cliquet option, as the discounted average of the payoffs for a single
@@ -154,6 +165,7 @@ class CliquetOptionWithArrays:
         """
 
         payoffs = self.getPayoffs(returnsForAllSimulations)
+        #payoffs = self.getPayoffsInOneTime(returnsForAllSimulations)
 
         discountedPrice = exp(-interestRate * self.maturity) * mean(payoffs)
 

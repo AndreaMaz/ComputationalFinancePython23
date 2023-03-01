@@ -9,8 +9,8 @@ initial value.
 from binomialModelMonteCarlo import BinomialModelMonteCarlo
 
 initialValue = 3
-decreaseIfDown = 0.9
-increaseIfUp = 1.1
+decreaseIfDown = 0.5
+increaseIfUp = 2
 numberOfTimes = 150
 numberOfSimulations = 100000
 interestRate = 0.05
