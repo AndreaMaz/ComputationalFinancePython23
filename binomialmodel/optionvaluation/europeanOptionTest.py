@@ -38,6 +38,8 @@ print()
 
 amountInRiskyAssetMatrix, amountInRiskFreeAssetMatrix = myPayoffEvaluator.getStrategy(payoff, maturity)
 
+discountedValuesPortfolio = myPayoffEvaluator.getDiscountedValuesPortfolioBackward(payoff, maturity)
+
 currentTime = maturity - 1
 
 realizations = myBinomialModelSmart.getRealizations()

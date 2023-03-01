@@ -34,6 +34,8 @@ class EuropeanOption:
         and rho is the interest rate, both got from the underlying model self.underlyingModel
     getValuesPortfolioBackward(payoffFunction, maturity)
         It returns the values at all times until maturity of a portfolio replicating the payoff of the option at maturity.
+    getDiscountedValuesPortfolioBackward(payoffFunction, maturity)
+        It returns the discounted values at all times until maturity of a portfolio replicating the payoff of the option at maturity.
     getValuesPortfolioBackwardAtGivenTime(payoffFunction, currentTime, maturity):
         It returns the values at currentTime of a portfolio replicating the payoff of the option at maturity.
     getValuesDiscountedPortfolioBackwardAtGivenTime(payoffFunction, currentTime, maturity):
@@ -156,6 +158,49 @@ class EuropeanOption:
             (1-q) * valuesPortfolio[timeIndexBackward + 1, 1:timeIndexBackward + 2]
         
         return valuesPortfolio
+
+    def getDiscountedValuesPortfolioBackward(self, payoffFunction, maturity):
+        """
+        It returns the discounted values for every time until maturity of a portfolio replicating the payoff of the
+        option at maturity.
+
+        Note that the values are given as a triangular matrix, since at time  k we have k + 1 value of the portfolio.
+
+        Parameters
+        ----------
+        payoffFunction : lambda function
+            the function representing the payoff we want to valuate.
+        maturity : int
+            the time at which the portfolio has to replicate the payoff
+
+        Returns
+        -------
+        valuesPortfolio : array
+            a (triangular) matrix describing the value of the portfolio at every time before maturity
+
+        """
+        binomialModel = self.underlyingModel
+        q = binomialModel.riskNeutralProbabilityUp
+
+        # we consider a number of times equal to maturity + 1
+        discountedValuesPortfolio = np.full((maturity + 1, maturity + 1), math.nan)
+
+        # realizations of the process at maturity
+        processRealizations = binomialModel.getRealizationsAtGivenTime(maturity)
+        # payoffs at maturity
+        payoffRealizations = [payoffFunction(x) for x in processRealizations]
+        # the final values of the portfolio are simply the payoffs
+        discountedValuesPortfolio[maturity, :] = payoffRealizations
+
+        rho = binomialModel.interestRate
+
+        for timeIndexBackward in range(maturity - 1, -1, -1):
+            # V(k,j)=qV(k+1,j+1)+(1-q)V(k,j+1), with j current time, k number of ups until current time
+            discountedValuesPortfolio[timeIndexBackward, 0: timeIndexBackward + 1] = \
+                (q * discountedValuesPortfolio[timeIndexBackward + 1, 0:timeIndexBackward + 1] + \
+                (1 - q) * discountedValuesPortfolio[timeIndexBackward + 1, 1:timeIndexBackward + 2])/(1+rho)
+
+        return discountedValuesPortfolio
       
         
     def getValuesPortfolioBackwardAtGivenTime(self, payoffFunction, currentTime, maturity):
@@ -288,8 +333,8 @@ class EuropeanOption:
         """
         binomialModel = self.underlyingModel
         
-        amountInRiskyAsset = np.full((maturity, maturity), math.nan) 
-        amountInRiskFreeAsset = np.full((maturity, maturity), math.nan) 
+        amountInRiskyAsset = np.full((maturity, maturity), math.nan)
+        amountInRiskFreeAsset = np.full((maturity, maturity), math.nan)
         
         u = binomialModel.increaseIfUp
         d = binomialModel.decreaseIfDown
