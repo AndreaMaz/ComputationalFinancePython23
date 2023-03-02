@@ -39,22 +39,14 @@ class CliquetOptionForCVWithArrays:
         the floor for the single return in the option
     localCap : float
         the cap for the single return in the option
-    globalFloor : float
-        the floor for the sum of the truncated returns
-    globalcap : float
-        the floor for the sum of the truncated returns
 
 
     Methods
     -------
-    getNonTruncatedPayoffSingleTrajectory(returns):
-        It returns the payoff of the Cliquet option with global floor = - infinity and global cap = infinity, for a
-        specific simulation, not yet discounted
-
     getPayoffs(self, returnsForAllSimulations, globalFloor = - np.inf, globalCap = np.inf):
         It returns the payoffs of the Cliquet option for all the simulations, not yet discounted
 
-    getDiscountedPriceOfTheOption(returnsForAllSimulations, interestRate):
+    getDiscountedPriceOfTheOption(returnsForAllSimulations, interestRate, globalFloor = - np.inf, globalCap = np.inf):
         It returns the discounted price of the Cliquet option, as the discounted average of the payoffs for a single
         simulation of the returns.
     """
@@ -71,10 +63,6 @@ class CliquetOptionForCVWithArrays:
             the floor for the single return in the option
         localCap : float
             the cap for the single return in the option
-        globalFloor : float
-            the floor for the sum of the trunctaed returns
-        globalCap : float
-            the floor for the sum of the trunctaed returns
 
         Returns
         -------
@@ -94,6 +82,8 @@ class CliquetOptionForCVWithArrays:
         # this is an attribute of the class: it gets initialized ONCE. Then, if we consider the truncated option, we
         # truncate its values
         self.nonTruncatedPayoffs = None
+
+
 
     # this is "private": with the double underscore as a prefix we make it possible to call this method only by typing
     # the name of the class: that is, one has to write
@@ -133,8 +123,7 @@ class CliquetOptionForCVWithArrays:
         self.nonTruncatedPayoffs = [self.__getNonTruncatedPayoffSingleTrajectory(rowOfMatrixOfReturns)
                                     for rowOfMatrixOfReturns in returnsForAllSimulations]
 
-    def getPayoffs(self, returnsForAllSimulations, globalFloor=- np.inf,
-                   globalCap=np.inf):
+    def getPayoffs(self, returnsForAllSimulations, globalFloor=- np.inf, globalCap=np.inf):
         """
         It returns the payoffs of the Cliquet option for all the simulations, not yet discounted
 

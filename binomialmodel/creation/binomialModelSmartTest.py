@@ -9,8 +9,8 @@ that the discounted value of a future realization of the process is bigger than 
 from binomialModelSmart import BinomialModelSmart
 
 initialValue = 3.0
-decreaseIfDown = 0.9
-increaseIfUp = 1.1
+decreaseIfDown = 0.5
+increaseIfUp = 2
 numberOfTimes = 150
 interestRate = 0.0
 

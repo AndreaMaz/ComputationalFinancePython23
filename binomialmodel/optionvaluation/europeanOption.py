@@ -47,7 +47,7 @@ class EuropeanOption:
     getStrategy(self, payoffFunction, maturity):
         It returns two matrices, describing how much money must be invested in the risk free and in the risky asset at
         any time before maturity in order to replicate the payoff at maturity
-     getStrategyAtGivenTime(self, payoffFunction, currentTime, maturity):
+    getStrategyAtGivenTime(self, payoffFunction, currentTime, maturity):
         It returns two vectors, describing how much money must be invested in the risk free and in the risky asset at
         currentTime in order to replicate the payoff at maturity
     """

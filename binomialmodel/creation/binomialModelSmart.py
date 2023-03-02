@@ -215,8 +215,8 @@ class BinomialModelSmart(BinomialModel):
         if timeIndex == 0:
             return self.initialValue
         else:
-            probabilities = self.getProbabilitiesOfRealizationsAtGivenTime(timeIndex)
             realizations = self.getRealizationsAtGivenTime(timeIndex)
+            probabilities = self.getProbabilitiesOfRealizationsAtGivenTime(timeIndex)
             # we discount the weighted sum of the realizations
             discountedAverage = (1 + self.interestRate) ** (-timeIndex) * np.dot(probabilities, realizations)
             return discountedAverage
