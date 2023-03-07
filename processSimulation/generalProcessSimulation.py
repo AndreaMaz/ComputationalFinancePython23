@@ -4,7 +4,7 @@
 
 import numpy as np
 import math
-from random import seed
+from numpy.random import seed
 
 
 class GeneralProcessSimulation:
@@ -37,7 +37,7 @@ class GeneralProcessSimulation:
         It returns all the realizations of the process
     getRealizationsAtGivenTimeIndex(timeIndex):
         It returns the realizations of the process at a given time index
-    getRealizationsAtGivenTimeIndex(time):
+    getRealizationsAtGivenTime(time):
         It returns the realizations of the process at a given time
     getAverageRealizationsAtGivenTimeIndex(timeIndex):
         It returns the average realizations of the process at a given time index
@@ -67,7 +67,7 @@ class GeneralProcessSimulation:
         functionToBeApplied : function, optional
             the function that is applied to simulate the process. The default is the identity.
         inverseFunctionToBeApplied : function, optional
-            the inverse function that is applied to simulate the process. The default is the identity.
+            the inverse function that is applied to get back the process. The default is the identity.
         mySeed : int, optional
             the seed to the generation of the standard normal realizations
         Returns
@@ -93,13 +93,13 @@ class GeneralProcessSimulation:
         vectorizedGetDrift = np.vectorize(self.getDrift)
         vectorizedGetDiffusion = np.vectorize(self.getDiffusion)
 
-        vectorizedFunctionToBeApplied = np.vectorize(self.functionToBeApplied)
+        inverseVectorizedFunctionToBeApplied = np.vectorize(self.inverseFunctionToBeApplied)
 
         numberOfTimes = math.ceil(self.finalTime / self.timeStep) + 1
 
         # times on the rows
         self.realizations = np.zeros((numberOfTimes, self.numberOfSimulations))
-        self.realizations[0] = [self.inverseFunctionToBeApplied(self.initialValue)] * self.numberOfSimulations
+        self.realizations[0] = [self.functionToBeApplied(self.initialValue)] * self.numberOfSimulations
 
         seed(self.mySeed)#a way to give the seed to be used by numpy.random.standard_normal
 
@@ -116,7 +116,7 @@ class GeneralProcessSimulation:
 
             currentTime += self.timeStep
 
-        self.realizations = vectorizedFunctionToBeApplied(self.realizations)
+        self.realizations = inverseVectorizedFunctionToBeApplied(self.realizations)
 
     def getRealizations(self):
         """

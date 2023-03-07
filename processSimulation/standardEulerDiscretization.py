@@ -47,8 +47,7 @@ class StandardEulerDiscretization(GeneralProcessSimulation):
 
     """
 
-    def __init__(self, numberOfSimulations, timeStep, finalTime, initialValue, muFunction, sigmaFunction,
-                 functionToBeApplied=lambda x: x, inverseFunctionToBeApplied=lambda x: x, mySeed=None):
+    def __init__(self, numberOfSimulations, timeStep, finalTime, initialValue, muFunction, sigmaFunction, mySeed=None):
         """
         Parameters
         ----------
@@ -75,8 +74,7 @@ class StandardEulerDiscretization(GeneralProcessSimulation):
         self.muFunction = muFunction
         self.sigmaFunction = sigmaFunction
 
-        super().__init__(numberOfSimulations, timeStep, finalTime, initialValue, functionToBeApplied,
-                         inverseFunctionToBeApplied, mySeed)
+        super().__init__(numberOfSimulations, timeStep, finalTime, initialValue, mySeed = mySeed)
 
     def getDrift(self, time, realization):
         """

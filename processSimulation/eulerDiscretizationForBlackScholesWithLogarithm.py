@@ -51,8 +51,8 @@ class EulerDiscretizationForBlackScholesWithLogarithm(GeneralProcessSimulation):
         self.muOfOriginalProcess = muOfOriginalProcess
         self.sigmaOfOriginalProcess = sigmaOfOriginalProcess
 
-        super().__init__(numberOfSimulations, timeStep, finalTime, initialValue, lambda x: math.exp(x),
-                         lambda x: math.log(x), mySeed)
+        super().__init__(numberOfSimulations, timeStep, finalTime, initialValue, lambda x: math.log(x),
+                         lambda x: math.exp(x), mySeed)
 
     def getDrift(self, currentTime, realizations):
         """

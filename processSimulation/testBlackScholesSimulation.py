@@ -14,7 +14,7 @@ from standardEulerDiscretization import StandardEulerDiscretization
 from analyticformulas.analyticFormulas import blackScholesPriceCall
 
 
-numberOfSimulations = 10000
+numberOfSimulations = 100
 timeStep = 0.2
 finalTime = 2
 
@@ -42,7 +42,7 @@ for k in range(numberOfTests):
     #price and error generating the process by simulating the logarithm 
     
     eulerBlackScholes= EulerDiscretizationForBlackScholesWithLogarithm(numberOfSimulations, timeStep, finalTime,
-                       initialValue, r, sigma)
+                       initialValue, r, sigma, mySeed = 10)
     
     processRealizationsWithLogarithm = eulerBlackScholes.getRealizationsAtGivenTime(maturity)
 
