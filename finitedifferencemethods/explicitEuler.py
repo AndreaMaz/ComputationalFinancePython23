@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 @author: Andrea Mazzon
 """
@@ -19,9 +17,8 @@ class ExplicitEuler(PricingWithPDEs):
     
     This is the PDE corresponding to a local volatility model.
     
-    Boundary conditions given as attributes of the class are applied at both ends
-    of the domain. An initial condition is applied at t = 0. This can be seen
-    as the payoff of an option. In this case, time represents maturity. 
+    Boundary conditions given as attributes of the class are applied at both ends of the domain. An initial condition is
+    applied at t = 0. This can be seen as the payoff of an option. In this case, time represents maturity.
         
     Attributes
     ----------
@@ -53,22 +50,19 @@ class ExplicitEuler(PricingWithPDEs):
     functionRight : function
         the condition at the right end of the space domain.
     currentTime : int
-        the current time. The PDE is solved going forward in time. Here the
-        current time is used to plot the solution dynamically and to compute 
-        the solution at the next time step in the derived classes.
-                                                              
-        
+        the current time. The PDE is solved going forward in time. Here the current time is used to plot the solution
+        dynamically and to compute the solution at the next time step in the derived classes.
 
     Methods
     -------
     getSolutionAtNextTime():
         It returns the solution at the next time step
     solveAndPlot():
-        It solves the PDE and dynamically plots the solution at every time step
-        of length 0.1. It does not store the solution in a matrix
+        It solves the PDE and dynamically plots the solution at every time step of length 0.1. It does not store the
+        solution in a matrix
     solveAndSave():
-        It solves the PDE and store the solution as a matrix in the self.solution
-        attribute of the class. It also returns it.
+        It solves the PDE and store the solution as a matrix in the self.solution attribute of the class. It also
+        returns it.
     getSolutionForGivenMaturityAndValue(time, space):
         It returns the solution at given time and given space
     """
@@ -93,16 +87,15 @@ class ExplicitEuler(PricingWithPDEs):
         r : float
             the interest rate
         payoff : function
-            the initial condition. Called in this way because it corresponds to 
-            payoff of an option seeing time as maturity
+            the initial condition. Called in this way because it corresponds to the payoff of an option seeing time as
+            maturity
         functionLeft : function
             the condition at the left end of the space domain
         functionRight : function
             the condition at the right end of the space domain
         currentTime : int
-            the current time. The PDE is solved going forward in time. Here the
-            current time is used to plot the solution dynamically and to compute 
-            the solution at the next time step in the derived classes.
+            the current time. The PDE is solved going forward in time. Here the current time is used to plot the solution
+            dynamically and to compute the solution at the next time step in the derived classes.
 
         Returns
         -------

@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Here we compare Explicit Euler, Implicit Euler and Crank-Nicholson on the valuation
 of a call option. We compare them in terms of accuracy and time.
@@ -18,6 +16,16 @@ from crankNicolson import CrankNicolson
 from analyticformulas.analyticFormulas import blackScholesPriceCall
 
 
+strike = 2
+payoff = lambda x : np.maximum(x - strike, 0)
+
+functionLeft = lambda x, t : 0
+#This is because from put-call parity and since the price of a put is close to zero for large values of the underyling,
+#the price of the call for large values x of the underlying can be approximated by x - strike * math.exp(-r * T),
+#where T is the maturity
+functionRight = lambda x, t : x - strike * math.exp(-r * t)
+
+
 dx = 0.1
 xmin = 0
 xmax = 10
@@ -29,18 +37,8 @@ sigma = 0.2
 sigmaFunction = lambda x : sigma
 r = 0.2
 
-strike = 2
 
-payoff = lambda x : np.maximum(x - strike, 0)
-
-functionLeft = lambda x, t : 0
-#this is because from put-call parity and since the price of a put is close to
-#zero for large values of the underyling, the price of the call for large values
-# x of the underlying can be approximated by x - strike * math.exp(-r * T),
-#where T is the maturity 
-functionRight = lambda x, t : x - strike * math.exp(-r * t)
-
-dtExplicitEuler = 1.1*dx*dx/(sigma*xmax)**2 # the minimum value such that it is stable
+dtExplicitEuler = 1.1*dx*dx/(sigma*xmax)**2 # kind of the minimum value such that it is stable
 
 explicitEulerSolver = ExplicitEuler(dx, dtExplicitEuler, xmin, xmax, tmax, r, sigmaFunction, payoff, functionLeft, functionRight)
 implicitEulerSolver = ImplicitEuler(dx, dt, xmin, xmax, tmax, r, sigmaFunction, payoff, functionLeft, functionRight)
@@ -48,10 +46,9 @@ crankNicolsonSolver = CrankNicolson(dx, dt, xmin, xmax, tmax, r, sigmaFunction, 
     
 def compareCallErrorsAndTimes():
     """
-    It compares Explicit Euler, Implicit Euler and Crank-Nicholson on the valuation
-    of a call option, in terms of accuracy and time. It prints the average error
-    for different values of the underlying, from strike/2 and 2*strike, and the
-    time needed to get the whole solution at the given time and space.
+    It compares Explicit Euler, Implicit Euler and Crank-Nicholson on the valuation of a call option, in terms of
+    accuracy and time. It prints the average error for different values of the underlying, from strike/2 and 2*strike,
+    and the time needed to get the whole solution at the given time and space.
 
     Returns
     -------
@@ -108,8 +105,7 @@ def compareCallErrorsAndTimes():
     
 def plotCallWithExactSolution():
     """
-    It dynamically plots the solution got from the three methods, together with
-    the analytic ones
+    It dynamically plots the solution got from the three methods, together with the analytic ones
 
     Returns
     -------
@@ -120,8 +116,7 @@ def plotCallWithExactSolution():
     x = explicitEulerSolver.x
     
     for maturity in np.arange(0.1, tmax+0.1, 0.1):
-        #we would have problems getting the Black-Scholes formula for x=0, since
-        #it would divide by zero                                                     
+        #we would have problems getting the Black-Scholes formula for x=0, since it would divide by zero
         exactSolution = [0] + [blackScholesPriceCall(underlying, r, sigma, maturity, strike) for underlying in x[1:]] 
         
         solutionExplicitEuler = [explicitEulerSolver.getSolutionForGivenTimeAndValue(maturity, underlying) for underlying in x]
@@ -137,7 +132,6 @@ def plotCallWithExactSolution():
         plt.grid(True)
         plt.xlabel("Underlying value")
         plt.ylabel("Price")
-        #plt.legend(loc=2, fontsize=12)
         plt.suptitle("Maturity = %1.3f" % maturity)
         plt.pause(0.1)
             
@@ -185,7 +179,7 @@ def plotSolutionBarrierOption():
         maturity += dt
     plt.show()
     
-#compareCallErrorsAndTimes()
+compareCallErrorsAndTimes()
 #plotCallWithExactSolution()
-plotSolutionBarrierOption()
+#plotSolutionBarrierOption()
     

@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 @author: Andrea Mazzon
 """
@@ -18,9 +16,8 @@ class ImplicitEuler(PricingWithPDEs):
     
     This is the PDE corresponding to a local volatility model.
     
-    Boundary conditions given as attributes of the class are applied at both ends
-    of the domain. An initial condition is applied at t = 0. This can be seen
-    as the payoff of an option. In this case, time represents maturity. 
+    Boundary conditions given as attributes of the class are applied at both ends of the domain. An initial condition is
+    applied at t = 0. This can be seen as the payoff of an option. In this case, time represents maturity.
     
     Attributes
     ----------
@@ -98,9 +95,8 @@ class ImplicitEuler(PricingWithPDEs):
         functionRight : function
             the condition at the right end of the space domain
         currentTime : int
-            the current time. The PDE is solved going forward in time. Here the
-            current time is used to plot the solution dynamically and to compute 
-            the solution at the next time step in the derived classes.
+            the current time. The PDE is solved going forward in time. Here the current time is used to plot the solution
+            dynamically and to compute the solution at the next time step in the derived classes.
 
         Returns
         -------

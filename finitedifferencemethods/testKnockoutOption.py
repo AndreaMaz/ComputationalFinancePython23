@@ -1,9 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-It tests the pricing of a Knock-out (down-and-out) option, both with 
-Monte-Carlo simulation of the underlying process and PDEs, in the case of a
-Black-Scholes model.
+It tests the pricing of a Knock-out (down-and-out) option, both with  Monte-Carlo simulation of the underlying process
+and PDEs, in the case of a Black-Scholes model.
 
 @author: Andrea Mazzon
 """
@@ -37,7 +34,6 @@ print("The analytic price is: {:.5}".format(analyticPrice))
 #Monte-Carlo
 
 numberOfSimulations = 10000
-seed = 1897
 
 timeStep = 0.1
 finalTime = maturity
@@ -45,7 +41,7 @@ finalTime = maturity
 payoffFunction = lambda x : np.maximum(x-strike,0)
 
 eulerBlackScholes= EulerDiscretizationForBlackScholesWithLogarithm(numberOfSimulations, timeStep, finalTime,
-                       initialValue, r, sigma)
+                                                                   initialValue, r, sigma)
 
 knockOutOption = KnockOutOption(payoffFunction, maturity, lowerBarrier)
 
@@ -67,41 +63,30 @@ functionRight = lambda x, t : x - strike * math.exp(-r * t)
 implicitEulerSolver = ImplicitEuler(dx, dt, xmin, xmax, tmax, r, sigmaFunction, payoffFunction, functionLeft,
                                     functionRight)
 
-errorsMonteCarlo = []
-timesMonteCarlo = []
 
-errorsImplicitEuler = []
-timesImplicitEuler = []
+timeMCInit = time.time()
 
-numberOfTests = 50
+processRealizations = eulerBlackScholes.getRealizations()
+MCprice = knockOutOption.getPrice(processRealizations)
 
+timeMonteCarlo = time.time()  - timeMCInit
 
-for testIndex in range(numberOfTests):
-
-    timeMCInit = time.time()
-
-    processRealizations = eulerBlackScholes.getRealizations()
-
-    MCprice = knockOutOption.getPrice(processRealizations)
-
-    timesMonteCarlo.append(time.time()  - timeMCInit)
-    errorsMonteCarlo.append(abs(MCprice-analyticPrice)/analyticPrice)
+errorMonteCarlo = abs(MCprice-analyticPrice)/analyticPrice
 
 #Implicit Euler
 
+timeImplicitInit = time.time()
 
-    timeImplicitInit = time.time()
+IEprice = implicitEulerSolver.getSolutionForGivenTimeAndValue(tmax, initialValue)
 
-    IEprice = implicitEulerSolver.getSolutionForGivenTimeAndValue(tmax, initialValue)
-
-    timesImplicitEuler.append(time.time()  - timeImplicitInit)
-    errorsImplicitEuler.append(abs(IEprice-analyticPrice)/(analyticPrice))
-
-print()
-print("Average time needed with Monte-Carlo: {:.5}".format(mean(timesMonteCarlo)))
-print("Average time needed with Implict Euler: {:.5}".format(mean(timesImplicitEuler)))
+timeImplicitEuler = time.time()  - timeImplicitInit
+errorImplicitEuler = abs(IEprice-analyticPrice)/(analyticPrice)
 
 print()
+print("Time needed with Monte-Carlo: {:.5}".format(mean(timeMonteCarlo)))
+print("Time needed with Implict Euler: {:.5}".format(mean(timeImplicitEuler)))
 
-print("Average error with Monte-Carlo: {:.5}".format(mean(errorsMonteCarlo)))
-print("Average error with Implicit Euler: {:.5}".format(mean(errorsImplicitEuler)))
+print()
+
+print("Error with Monte-Carlo: {:.5}".format(mean(errorMonteCarlo)))
+print("Error with Implicit Euler: {:.5}".format(mean(errorImplicitEuler)))

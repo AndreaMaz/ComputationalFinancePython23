@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 @author: Andrea Mazzon
 """
@@ -17,16 +15,13 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
     
         U_t + F[U_x,U_{xx},U_{xxx},..] = C(t),
         
-    still not specifying the method, over the spatial domain of xmin <= x <= xmax
-    that is discretized with a given step dx, and a time domain 0 <= t <= tmax
-    that is discretized with a given time step dt.
+    still not specifying the method, over the spatial domain of xmin <= x <= xmax that is discretized with a given step
+    dx, and a time domain 0 <= t <= tmax that is discretized with a given time step dt.
     
-    Boundary conditions given as attributes of the class are applied at both ends
-    of the domain. An initial condition is applied at t = 0. This can be seen
-    as the payoff of an option. In this case, time represents maturity. 
+    Boundary conditions given as attributes of the class are applied at both ends of the domain. An initial condition is
+    applied at t = 0. This can be seen as the payoff of an option. In this case, time represents maturity.
     
-    It is extended by classes representing the specific PDE and the specific
-    method.
+    It is extended by classes representing the specific PDE and the specific method.
     
     Attributes
     ----------
@@ -47,33 +42,27 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
     numberOfTimeSteps : int
         the number of intervals of the time domain
     payoff : function
-        the initial condition. Called in this way because it corresponds to 
-        payoff of an option seeing time as maturity
+        the initial condition. Called in this way because it corresponds to payoff of an option seeing time as maturity
     functionLeft : function
         the condition at the left end of the space domain
     functionRight : function
         the condition at the right end of the space domain
     currentTime : int
-        the current time. The PDE is solved going forward in time. Here the
-        current time is used to plot the solution dynamically and to compute 
-        the solution at the next time step in the derived classes.
-                                                              
-        
+        the current time. The PDE is solved going forward in time. Here the current time is used to plot the solution
+        dynamically and to compute the solution at the next time step in the derived classes.
 
     Methods
     -------
     getSolutionAtNextTime():
-        It returns the solution at the next time step. It depends on the methods used. Abstract
-        method in the parent class
+        It returns the solution at the next time step. It depends on the methods used. Abstract method in the parent class
     solveAndPlot():
-        It solves the PDE and dynamically plots the solution at every time step
-        of length 0.1. It does not store the solution in a matrix
+        It solves the PDE and dynamically plots the solution at every time step of length 0.1. It does not store the
+        solution in a matrix
     solveAndSave():
-        It solves the PDE and store the solution as a matrix in the self.solution
-        attribute of the class. It also returns it.
+        It solves the PDE and store the solution as a matrix in the self.solution attribute of the class. It also returns it.
     getSolutionForGivenMaturityAndValue(time, space):
-        It returns the solution at given time (seen as time to maturity if we think about the evaluation of
-        options) and given space
+        It returns the solution at given time (seen as time to maturity if we think about the evaluation of options) and
+        given space
     """
     
     def __init__(self, dx, dt, xmin, xmax, tmax, payoff, functionLeft, functionRight):
@@ -91,16 +80,14 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
         tmax : float
             right end of the time domain
         payoff : function
-            the initial condition. Called in this way because it corresponds to 
-            payoff of an option seeing time as maturity
+            the initial condition. Called in this way because it corresponds to payoff of an option seeing time as maturity
         functionLeft : function
             the condition at the left end of the space domain
         functionRight : function
             the condition at the right end of the space domain
         currentTime : int
-            the current time. The PDE is solved going forward in time. Here the
-            current time is used to plot the solution dynamically and to compute 
-            the solution at the next time step in the derived classes.
+            the current time. The PDE is solved going forward in time. Here the current time is used to plot the solution
+            dynamically and to compute the solution at the next time step in the derived classes.
 
         Returns
         -------
@@ -128,9 +115,7 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
 
     def __initializeU(self):
         #here we initialize the solution, u0 stores the initial condition
-        def payoffVectorized(y):
-            payoffAsVectorizedFunction = vectorize(self.payoff)
-            return payoffAsVectorizedFunction(y)
+        payoffVectorized = vectorize(self.payoff)
 
         u0 = payoffVectorized(self.x)#x is an array: we can directly apply the vectorized payoff
         self.u = u0
@@ -152,8 +137,7 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
         
     def solveAndPlot(self):
         """
-        It solves the PDE and dynamically plots the solution at every time step
-        of length 0.1. It does not store the solution in a matrix
+        It solves the PDE and dynamically plots the solution at every time step of length 0.1. It does not store the solution in a matrix
 
         Returns
         -------
@@ -164,8 +148,8 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
         self.currentTime = 0
         timeToPlot = 0 # we want to plot at times 0, 0.1, 0.2,..
         for timeIndex in range(self.numberOfTimeSteps+2):
-            #we get the new solution. The solution will be computed in the
-            #derived classes according to self.currentTime and self.uPast                           
+            #we get the new solution. The solution will be computed in the derived classes according to self.currentTime
+            #and self.uPast
             self.u = self.getSolutionAtNextTime()
             #and update uPast: u will be the "past solution" at the next time step
             self.uPast = self.u
@@ -173,9 +157,8 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
             #we plot the solution when currentTime is (close to) 0.1, 0.2, ..
             if self.currentTime - self.dt < timeToPlot and self.currentTime >= timeToPlot:
                 plt.plot(self.x, self.u, 'bo-', label="Numeric solution")
-                #we assume here that the solution is not bigger than the max x
-                #(generally true for options): then we set x[-1] to be the max
-                #y axis
+                #we assume here that the solution is not bigger than the max x (generally true for options): then we set
+                # x[-1] to be the max y axis
                 plt.axis((self.xmin-0.12, self.xmax+0.12, 0, self.x[-1]))
                 plt.grid(True)
                 plt.xlabel("Underlying value")
@@ -235,6 +218,7 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
         #we generate the solution only once
         if self.solution is None:
            self.solveAndSave()
+        #or:
         #if not self.alreadyComputedTheSolution:
         #   self.solveAndSave()
         #we have to get the time and space indices
