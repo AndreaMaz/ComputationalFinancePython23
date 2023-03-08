@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Created on Thu Mar  4 14:25:03 2021
-
 @author: Andrea Mazzon
 """
 
@@ -20,9 +16,8 @@ class CrankNicolson(PricingWithPDEs):
     
     This is the PDE corresponding to a local volatility model.
     
-    Boundary conditions given as attributes of the class are applied at both ends
-    of the domain. An initial condition is applied at t = 0. This can be seen
-    as the payoff of an option. In this case, time represents maturity. 
+    Boundary conditions given as attributes of the class are applied at both ends of the domain. An initial condition is
+    applied at t = 0. This can be seen as the payoff of an option. In this case, time represents maturity.
 
     Attributes
     ----------
@@ -111,7 +106,6 @@ class CrankNicolson(PricingWithPDEs):
         self.sigma = sigma
         self.r = r
         super().__init__(dx, dt, xmin, xmax, tmax, payoff, functionLeft, functionRight)
-        self.numberOfSpaceSteps = round((self.xmax-self.xmin)/self.dx)
         self.initializeTerms()
         
        

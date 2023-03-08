@@ -142,4 +142,5 @@ class ExplicitEuler(PricingWithPDEs):
         
         #this is zero for a put 
         u[-1] = self.functionRight(self.x[-1], self.currentTime)
+
         return u

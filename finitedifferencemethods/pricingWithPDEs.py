@@ -60,7 +60,7 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
         solution in a matrix
     solveAndSave():
         It solves the PDE and store the solution as a matrix in the self.solution attribute of the class. It also returns it.
-    getSolutionForGivenMaturityAndValue(time, space):
+    getSolutionForGivenTimeAndValue(time, space):
         It returns the solution at given time (seen as time to maturity if we think about the evaluation of options) and
         given space
     """
@@ -85,9 +85,7 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
             the condition at the left end of the space domain
         functionRight : function
             the condition at the right end of the space domain
-        currentTime : int
-            the current time. The PDE is solved going forward in time. Here the current time is used to plot the solution
-            dynamically and to compute the solution at the next time step in the derived classes.
+
 
         Returns
         -------
@@ -110,7 +108,6 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
         self.functionLeft = functionLeft
         self.functionRight = functionRight
 
-        self.alreadyComputedTheSolution = False
         self.solution = None
 
     def __initializeU(self):
@@ -118,7 +115,7 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
         payoffVectorized = vectorize(self.payoff)
 
         u0 = payoffVectorized(self.x)#x is an array: we can directly apply the vectorized payoff
-        self.u = u0
+        self.uCurrent = u0
         self.uPast = u0
     
     @abc.abstractmethod
@@ -150,13 +147,14 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
         for timeIndex in range(self.numberOfTimeSteps+2):
             #we get the new solution. The solution will be computed in the derived classes according to self.currentTime
             #and self.uPast
-            self.u = self.getSolutionAtNextTime()
+            self.uCurrent = self.getSolutionAtNextTime()
             #and update uPast: u will be the "past solution" at the next time step
-            self.uPast = self.u
+            self.uPast = self.uCurrent
             
-            #we plot the solution when currentTime is (close to) 0.1, 0.2, ..
+            #we plot the solution when currentTime is (close to) 0.1, 0.2, .
+            # self.currentTime - self.dt <timeToPlot <= currentTime
             if self.currentTime - self.dt < timeToPlot and self.currentTime >= timeToPlot:
-                plt.plot(self.x, self.u, 'bo-', label="Numeric solution")
+                plt.plot(self.x, self.uCurrent, 'bo-', label="Numeric solution")
                 #we assume here that the solution is not bigger than the max x (generally true for options): then we set
                 # x[-1] to be the max y axis
                 plt.axis((self.xmin-0.12, self.xmax+0.12, 0, self.x[-1]))
@@ -188,14 +186,23 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
         self.solution = np.zeros((self.numberOfTimeSteps+1,self.numberOfSpaceSteps+1))
         for i in range(self.numberOfTimeSteps+1):
             #we store the solution at past time
-            self.solution[i] = self.u
+            self.solution[i] = self.uCurrent
             #we get the solution at current time. The solution will be computed in the
             #derived classes according to self.currentTime and self.uPast                    
-            self.u = self.getSolutionAtNextTime()
-            self.uPast = self.u
+            self.uCurrent = self.getSolutionAtNextTime()
+            self.uPast = self.uCurrent
             self.currentTime += self.dt
-        self.alreadyComputedTheSolution = True #we want to compute all the solution only once.
 
+    #self.solution[0]=u0
+
+    #self.uCurrent=u1 (which is computed based on uPast (which is still u0) and currentTime (which is 0)
+    #self.uPast = u1
+    #self.currentTime = t_1
+
+    # self.solution[1]=u1
+    #self.uCurrent=u2 (which is computed based on uPast (which is now u1) and currentTime (which is now t_1)
+    # self.uPast = u2
+    #self.currentTime = t2
 
       
     def getSolutionForGivenTimeAndValue(self, time, space):
@@ -219,10 +226,9 @@ class PricingWithPDEs(metaclass=abc.ABCMeta):
         if self.solution is None:
            self.solveAndSave()
         #or:
-        #if not self.alreadyComputedTheSolution:
-        #   self.solveAndSave()
+
         #we have to get the time and space indices
         timeIndexForTime = round(time/self.dt)#i such that t_i is closest to time
         spaceIndexForSpace = round((space - self.xmin)/self.dx)#j such that x_j is closest to space
         return self.solution[timeIndexForTime, spaceIndexForSpace]
-        
+
